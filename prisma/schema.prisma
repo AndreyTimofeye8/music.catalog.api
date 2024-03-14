@@ -8,17 +8,17 @@ datasource db {
 }
 
 model Composition {
-  id        Int @default(autoincrement()) @id
-  title     String @db.VarChar(100)
-  author    Author @relation(fields: [authorId], references: [id])
+  id        Int     @default(autoincrement()) @id
+  title     String  @db.VarChar(100)
+  author    Author  @relation(fields: [authorId], references: [id])
   authorId  Int
   duration  Int
-  genre     String @db.VarChar(30)
+  genre     String  @db.VarChar(30)
 }
 
 model Author {
-  id            Int @default(autoincrement()) @id
-  name          String @db.VarChar(75)
+  id            Int           @default(autoincrement()) @id
+  name          String        @db.VarChar(75)
   compositions  Composition[]
-  link          String? @db.VarChar(255)
+  link          String?       @db.VarChar(255)
 }
