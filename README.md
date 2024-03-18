@@ -1,73 +1,105 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="200" alt="Nest Logo" /></a>
-</p>
+## Music catalog API (Тестовое задание)
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
+#### Используемый стэк технологий:
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://coveralls.io/github/nestjs/nest?branch=master" target="_blank"><img src="https://coveralls.io/repos/github/nestjs/nest/badge.svg?branch=master#9" alt="Coverage" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+1. Node.js (v20.11.1), TypeScript
+2. NestJS
+3. PostgreSQL, Prisma
+4. Open API, Docker
 
-## Description
+**Сущности**:
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+- _Композиция_. Включает в себя название, автора, продолжительноть и жанр.
+- _Автор_. Включает в себя имя, список композиций и ссылку на сайт.
 
-## Installation
+Сервис предоставляет возможность просматривать, добавлять, редактировать и удалять композиции и авторов.
+
+При просмотре авторов и композиций используется пагинация.
+
+При просмотре композиций имеется возможность фильтрации по названию, автору и жанру, и сортировки по названию, жанру и продолжительности.
+
+При просмотре авторов имеется возможность фильтрации и сортировки по имени.
+
+Документирование API обеспечивается с помощью Open API.
+
+В Dockerfile описаны инструкции для сборки образа приложения, в docker-compose.yml - конфигурация всех контейнеров, необходимых для приложения (база данных и инструмент для администрирования БД).
+
+#### Методы API
+
+#### 1. Автор
+
+##### 1.1 **POST** /author
+
+- добавление автора. Добавляет автора с указанными именем и ссылкой на сайт (не обязательна).
+
+##### 1.2 **GET** /authors
+
+- просмотр авторов. Показывает авторов с пагинацией и сортировкой.
+
+##### 1.3 **GET** /authors/:searchString
+
+- просмотр авторов. Показывает авторов, отфильтрованных по имени. Фильтрация регистронезависимая - например, запрос "U2" или "u2" вернёт группу U2.
+
+##### 1.4 **GET** /author/:id/compositions
+
+- просмотр композиций автора. Показывает композиции определённого автора.
+
+##### 1.5 **GET** /author/:id
+
+- просмотр автора. Показывает определённого автора.
+
+##### 1.6 **PUTCH** /author/:id
+
+- редактирование автора. Редактирует имя и/или ссылку на сайт определённого автора.
+
+##### 1.7 **DELETE** /author/:id
+
+- удаление автора. Удаляет определённого автора.
+
+#### 2. Композиция
+
+##### 2.1 **POST** /composition
+
+- добавление композиции. Добавляет композицию с указанными названием, идентификатором автора, продолжительностью и жанром.
+
+##### 2.2 **GET** /compositions
+
+- просмотр композиций. Показывает композиции с пагинацией и сортировкой.
+
+##### 2.3 **GET** /сompositions/:searchString
+
+- просмотр композиций. Показывает композиции, отфильтрованные по названию, автору и жанру. Фильтрация регистронезависимая - например, запрос "Space" или "space" вернёт композицию "Space Case".
+
+##### 2.4 **GET** /composition/:id
+
+- просмотр композиции. Показывает определённую композицию.
+
+##### 2.5 **PUTCH** /composition/:id
+
+- редактирование композиции. Редактирует название, продолжительность, жанр определённой композиции.
+
+##### 2.6 **DELETE** /composition/:id
+
+- удаление композиции. Удаляет определённую композицию.
+
+  <br>
+
+Установка необходимых зависимостей:
 
 ```bash
 $ npm install
 ```
 
-## Running the app
+<br>
+
+Запуск приложения:
 
 ```bash
-# development
 $ npm run start
-
-# watch mode
-$ npm run start:dev
-
-# production mode
-$ npm run start:prod
 ```
 
-## Test
+<br>
 
-```bash
-# unit tests
-$ npm run test
+#### Автор
 
-# e2e tests
-$ npm run test:e2e
-
-# test coverage
-$ npm run test:cov
-```
-
-## Support
-
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
-
-## Stay in touch
-
-- Author - [Kamil Myśliwiec](https://kamilmysliwiec.com)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
-
-## License
-
-Nest is [MIT licensed](LICENSE).
+[Андрей Тимофеев](https://t.me/andreu_t)
